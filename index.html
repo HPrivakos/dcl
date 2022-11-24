@@ -36,7 +36,7 @@ const _getTiles = async () => {
   return data;
 };
 const _getCoord = async (x, z) => {
-  const res = await fetch('https://peer-ec1.decentraland.org/content/entities/scene?pointer=' + [x,z].join(','));
+  const res = await fetch('https://peer.decentraland.org/content/entities/scene?pointer=' + [x,z].join(','));
   const j = await res.json();
   // console.log('got coord', x, z, j);
   return j[0];
@@ -229,7 +229,7 @@ const COLOR_BY_TYPE = {
       const manager = new THREE.LoadingManager();
       manager.setURLModifier(url => {
         // const u = (() => {
-          if (url.includes('https://peer-ec1.decentraland.org/lambdas/contentv2/contents/Q') || /^(?:blob:|data:)/.test(url)) {
+          if (url.includes('https://peer.decentraland.org/lambdas/contentv2/contents/Q') || /^(?:blob:|data:)/.test(url)) {
             return url;
           } else {
             const _getFilename = u => {
@@ -240,7 +240,7 @@ const COLOR_BY_TYPE = {
             /* const file = content.find(f => _getFilename(f.file) === filename); */
             let file;
             ['unity_assets', 'models'].some(prefix => {
-              // const u = prefix + '/' + url.slice('https://peer-ec1.decentraland.org/lambdas/contentv2/contents/'.length);
+              // const u = prefix + '/' + url.slice('https://peer.decentraland.org/lambdas/contentv2/contents/'.length);
               file = content.find(f => {
                 return f.file.startsWith(prefix + '/') && _getFilename(f.file) === filename;
               });
@@ -249,7 +249,7 @@ const COLOR_BY_TYPE = {
             // console.log('got content', url, filename, content, file);
             if (file) {
               const {hash} = file;
-              return 'https://peer-ec1.decentraland.org/lambdas/contentv2/contents/' + hash;
+              return 'https://peer.decentraland.org/lambdas/contentv2/contents/' + hash;
             } else {
               console.warn('content not found', url, content);
               return url;
@@ -440,7 +440,7 @@ const COLOR_BY_TYPE = {
               if (srcFile) {
                 const {hash} = srcFile;
                 try {
-                  let model = await _loadGltfCached('https://peer-ec1.decentraland.org/lambdas/contentv2/contents/' + hash);
+                  let model = await _loadGltfCached('https://peer.decentraland.org/lambdas/contentv2/contents/' + hash);
                   if (!live) return;
                   console.log('got model', hash, model);
 
